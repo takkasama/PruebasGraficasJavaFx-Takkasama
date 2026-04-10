@@ -3,6 +3,7 @@ package cr.ac.una.puebasgraficas.model;
 
 import cr.ac.una.puebasgraficas.util.GsonUtil;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -13,28 +14,28 @@ import javafx.scene.control.ListView;
  */
 public class ListUsers {
     
-    private ObservableList<UserDTO> listUsersUI;
+    private ObservableList<User> listUsersUI;
     
     public ListUsers(){
         this.listUsersUI = FXCollections.observableArrayList();
     }
 
-    public ObservableList<UserDTO> getListUsersUI() {
+    public ObservableList<User> getListUsersUI() {
         return listUsersUI;
     }
     
-    public boolean add(UserDTO newUser){
+    public boolean add(User newUser){
         
        if (newUser == null || exist(newUser)) return false;
        
        listUsersUI.add(newUser);
        
-       User.saveData(newUser);
-       
+       GsonUtil.guardar(listUsersUI, "Users.json");
+              
        return true;
     }
     
-    public boolean remove(UserDTO userToRemove){
+    public boolean remove(User userToRemove){
         
         if(userToRemove == null || !exist(userToRemove)) return false;
         
@@ -45,12 +46,12 @@ public class ListUsers {
 
     }
     
-    public boolean exist(UserDTO user){
+    public boolean exist(User user){
         
         if (user == null || listUsersUI.isEmpty()) return false;
         
         
-        for (UserDTO userToFind : listUsersUI){
+        for (User userToFind : listUsersUI){
             
             if ( user.getEmail().equals(userToFind.getEmail()) )return true;
             
@@ -59,15 +60,18 @@ public class ListUsers {
         return false;
         
     }
+    
+    public void loadData(){
         
+        if(!GsonUtil.existe("Users.json")) return; 
+        
+        List<User> users = GsonUtil.leerLista("Users.json", User.class);
+        
+        listUsersUI = FXCollections.observableList(users);  
+        
+    }
+     
 
-    public User convertUserDTOToUser(UserDTO userDTO){
-       User user = new User();
-       user.setDateBirth(userDTO.getDateBirth());
-       user.setEmail(userDTO.getEmail());
-       user.setName(userDTO.getName());
-       
-       return user;
-   }
+ 
     
 }

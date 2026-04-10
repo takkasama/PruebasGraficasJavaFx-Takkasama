@@ -3,46 +3,69 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="pContainer" prefHeight="749.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.puebasgraficas.controller.PrincipalController">
+<AnchorPane id="AnchorPane" fx:id="pContainer" prefHeight="749.0" prefWidth="932.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.puebasgraficas.controller.PrincipalController">
     <stylesheets>
         <URL value="@Style.css" />
     </stylesheets>
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="293.0" layoutY="206.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="417.0" layoutY="242.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <MFXButton fx:id="btnAgregar" onAction="#onActionBtnAgregar" text="Agregar " />
-            <MFXTextField fx:id="txtName" floatingText="Name " maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </VBox.margin>
-            </MFXTextField>
-            <MFXTextField fx:id="txtEmail" floatingText="Email" maxWidth="1.7976931348623157E308">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </VBox.margin>
-            </MFXTextField>
-            <MFXDatePicker fx:id="dpkDateBirth" floatMode="INLINE" floatingText="Date Birth" maxWidth="1.7976931348623157E308">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </VBox.margin>
-            </MFXDatePicker>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="20.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Name " HBox.hgrow="ALWAYS" />
-                  <Label maxWidth="1.7976931348623157E308" text="Email" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Date Birth" HBox.hgrow="ALWAYS" />
+                  <MFXButton fx:id="btnAgregar" onAction="#onActionBtnAgregar" text="Agregar " />
+                  <MFXButton fx:id="btnTryDateTextField" onAction="#onActionBtnTryDateTextField" text="Try DateTextField" />
+                  <MFXTextField fx:id="txtName" floatingText="Name " maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </MFXTextField>
+                  <MFXTextField fx:id="txtEmail" floatingText="Email" maxWidth="1.7976931348623157E308">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </MFXTextField>
+                  <MFXDatePicker fx:id="dpkDateBirth" floatMode="INLINE" floatingText="Date Birth" maxWidth="1.7976931348623157E308">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </MFXDatePicker>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Name " HBox.hgrow="ALWAYS" />
+                        <Label maxWidth="1.7976931348623157E308" text="Email" HBox.hgrow="ALWAYS" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Date Birth" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <MFXLegacyTableView fx:id="tableUsers">
+                     <columns>
+                        <TableColumn fx:id="colName" prefWidth="75.0" text="Name" />
+                        <TableColumn fx:id="colEmail" prefWidth="75.0" text="Email" />
+                        <TableColumn fx:id="colDateBirth" prefWidth="75.0" text="DateBirth" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </MFXLegacyTableView>
                </children>
-            </HBox>
-            <ListView fx:id="ListUserContainer" prefHeight="599.0" prefWidth="500.0" />
+            </VBox>
+            <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <content>
+                  <FlowPane fx:id="paneUsers" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="746.0" prefWidth="488.0" />
+               </content>
+            </ScrollPane>
          </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>

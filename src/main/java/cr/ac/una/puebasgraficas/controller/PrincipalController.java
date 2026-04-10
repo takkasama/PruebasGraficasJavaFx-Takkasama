@@ -7,17 +7,22 @@ import cr.ac.una.puebasgraficas.util.FlowController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class PrincipalController extends Controller implements Initializable {
@@ -31,11 +36,21 @@ public class PrincipalController extends Controller implements Initializable {
     @FXML
     private MFXTextField txtEmail;
     @FXML
-    private ListView<UserDTO> ListUserContainer;
-    @FXML
     private AnchorPane pContainer;
     @FXML
     private MFXDatePicker dpkDateBirth;
+    @FXML
+    private MFXButton btnTryDateTextField;
+    @FXML
+    private FlowPane paneUsers;
+    @FXML
+    private MFXLegacyTableView<User> tableUsers;
+    @FXML
+    private TableColumn<User, String> colName;
+    @FXML
+    private TableColumn<User, String> colEmail;
+    @FXML
+    private TableColumn<User, String> colDateBirth;
 
 
     /**
@@ -43,17 +58,38 @@ public class PrincipalController extends Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ListUserContainer.setItems(listUsersUI.getListUsersUI());
+        
+        colDateBirth.setCellValueFactory(new PropertyValueFactory<>("dateBirth"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        
+        tableUsers.setItems(listUsersUI.getListUsersUI());
     }    
 
- @Override
+    @Override
     public void initialize() {
     }
     
     
     @FXML
+    private void onActionBtnTryDateTextField(ActionEvent event) {
+        
+        FlowController.getInstance().goViewInWindow("DateView");
+        
+    }
+    
+    @FXML
     private void onActionBtnAgregar(ActionEvent event) {
       
+        saveAndVerifyUser();
+                
+    }
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *               
+*                                                               |Guardado|                                                                  *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+    private void saveAndVerifyUser(){
+        
         boolean isEmptyTxtFieldEmpty = txtEmail.getText().isEmpty() || 
                 txtName.getText().isEmpty();          
         
@@ -75,28 +111,10 @@ public class PrincipalController extends Controller implements Initializable {
              openAdvertisementWindow(paretStage, "Invalid Date Birth");
          }
         else 
-            saveUserAndLoadUser(txtName.getText(), txtEmail.getText(), dpkDateBirth.getValue());
-        
-                    
-
-    }
-   
-    public void saveUserAndLoadUser(String name, String email, LocalDate dateBirth){
-        
-        UserDTO user = new UserDTO();
-        user.setName(name);
-        user.setEmail(email);
-        user.setDateBirth(dateBirth);
-        
-        if(!listUsersUI.add(user)){
-            
-            Stage parentStage = (Stage) pContainer.getScene().getWindow();
-            //Obtenemos el estage de la vista en la cual se trababaja donde se puede entender de forma -> del contedor principal se obtendra el stage 
-            openAdvertisementWindow( parentStage ,"The User Exist");
-        }
-        
+            saveUserAndLoadUser(txtName.getText(), txtEmail.getText(), dpkDateBirth.getValue().toString());
     }
     
+    //Abre ventana emergente si no se cumple las condiciones de algo 
     public void openAdvertisementWindow(Stage stage, String msgToShow){
         
         //Stage -> se recibe directamente debido a que si se obtien de la fomar FlowController.getIntance().getController(viewName).getStage 
@@ -110,7 +128,28 @@ public class PrincipalController extends Controller implements Initializable {
         FlowController.getInstance().goViewInWindowModal("AdvertisementView", stage, true);   
         
     }
- 
+    
+    //Agrega el usuario 
+    public void saveUserAndLoadUser(String name, String email, String dateBirth){
+        
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setDateBirth(dateBirth);
+        
+        if(!listUsersUI.add(user)){
+            Stage parentStage = (Stage) pContainer.getScene().getWindow();
+            openAdvertisementWindow(parentStage, " - THE USER EXIST - ");
+        }
+            
+        
+        
+    }
+    
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *               
+*                                                               |Validaciones|                                                              *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
     boolean isValidNameTextField(String textTovalidate){
         return textTovalidate.matches("[A-Za-z\\s]{4,30}");
     }
@@ -118,6 +157,7 @@ public class PrincipalController extends Controller implements Initializable {
     boolean isValidEmailTextField(String textToValidate){
         return textToValidate.matches("^[a-zA-Z0-9._^\\-]{4,50}@[a-zA-Z.]{4,30}\\.[a-z]{2,3}$");
     }
+    
     boolean isValidDateBirthDatePicker(LocalDate dateToValidate){     
         return !(dateToValidate == null || !(User.isValidDate(dateToValidate)));
     }
@@ -127,6 +167,9 @@ public class PrincipalController extends Controller implements Initializable {
         //en desarrollo
         
     }
+    
+
+
 }
 
     

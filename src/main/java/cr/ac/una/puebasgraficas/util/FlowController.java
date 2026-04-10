@@ -16,8 +16,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import cr.ac.una.puebasgraficas.controller.Controller;
+import cr.ac.una.puebasgraficas.controller.UserController;
+import cr.ac.una.puebasgraficas.model.User;
 import io.github.palexdev.materialfx.css.themes.MFXThemeManager;
 import io.github.palexdev.materialfx.css.themes.Themes;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 
 public class FlowController {
@@ -207,6 +210,7 @@ public class FlowController {
 	
 	catch(Exception e){return null;}
     }
+ 
     public Controller getController(String viewName) {
         return getLoader(viewName).getController();
     }

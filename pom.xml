@@ -40,6 +40,23 @@
             <version>2.1.0</version>
         </dependency>
         
+        <dependency>
+            <groupId>de.dfki.mary</groupId>
+            <artifactId>marytts-runtime</artifactId>
+            <version>5.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dfki.mary</groupId>
+            <artifactId>voice-cmu-slt-hsmm</artifactId>
+            <version>5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>de.dfki.mary</groupId>
+            <artifactId>marytts-builder</artifactId>
+            <version>5.2.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
