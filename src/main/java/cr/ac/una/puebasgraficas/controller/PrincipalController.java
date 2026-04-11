@@ -3,6 +3,7 @@ package cr.ac.una.puebasgraficas.controller;
 import cr.ac.una.puebasgraficas.model.ListUsers;
 import cr.ac.una.puebasgraficas.model.UserDTO;
 import cr.ac.una.puebasgraficas.model.User;
+import cr.ac.una.puebasgraficas.service.PiperTTSService;
 import cr.ac.una.puebasgraficas.util.FlowController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -20,6 +21,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -40,8 +43,6 @@ public class PrincipalController extends Controller implements Initializable {
     @FXML
     private MFXDatePicker dpkDateBirth;
     @FXML
-    private MFXButton btnTryDateTextField;
-    @FXML
     private FlowPane paneUsers;
     @FXML
     private MFXLegacyTableView<User> tableUsers;
@@ -51,6 +52,10 @@ public class PrincipalController extends Controller implements Initializable {
     private TableColumn<User, String> colEmail;
     @FXML
     private TableColumn<User, String> colDateBirth;
+    @FXML
+    private MFXTextField txtDescripcion;
+    @FXML
+    private MFXButton btnReproduceAudio;
 
 
     /**
@@ -70,13 +75,6 @@ public class PrincipalController extends Controller implements Initializable {
     public void initialize() {
     }
     
-    
-    @FXML
-    private void onActionBtnTryDateTextField(ActionEvent event) {
-        
-        FlowController.getInstance().goViewInWindow("DateView");
-        
-    }
     
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
@@ -166,6 +164,16 @@ public class PrincipalController extends Controller implements Initializable {
         
         //en desarrollo
         
+    }
+
+    @FXML
+    private void onKeyPressedDescripcion(KeyEvent event) throws Exception {
+        if(event.getCode() == KeyCode.ENTER) onActrionBtnReproduceAudio(null);
+    }
+
+    @FXML
+    private void onActrionBtnReproduceAudio(ActionEvent event) throws Exception {
+        PiperTTSService.getInstancia().sintetizar(txtDescripcion.getText());
     }
     
 

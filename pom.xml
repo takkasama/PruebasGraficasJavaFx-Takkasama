@@ -4,11 +4,11 @@
     <groupId>cr.ac.una</groupId>
     <artifactId>PuebasGraficas</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <properties>
+<!--    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
-    </properties>
+    </properties>-->
     
     
     <repositories>    
@@ -49,20 +49,20 @@
             <artifactId>atlantafx-base</artifactId>
             <version>2.1.0</version>
         </dependency>
-        
-          <!-- MaryTTS Core -->
+<!--        
+           MaryTTS Core 
           <dependency>
             <groupId>de.dfki.mary</groupId>
             <artifactId>marytts-runtime</artifactId>
             <version>5.2.1</version>
           </dependency>
 
-          <!-- Voz en español (DFKI Inca) -->
+           Voz en español (DFKI Inca) 
           <dependency>
             <groupId>de.dfki.mary</groupId>
             <artifactId>voice-dfki-inca-hsmm</artifactId>
             <version>5.2.1</version>
-          </dependency>
+          </dependency>-->
         
 <!--        <dependency>
             <groupId>de.dfki.mary</groupId>
@@ -81,6 +81,12 @@
             <version>5.2.1</version>
             <type>jar</type>
         </dependency>-->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>25-ea+21</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

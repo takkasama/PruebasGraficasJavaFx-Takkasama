@@ -1,7 +1,9 @@
 package cr.ac.una.puebasgraficas.service;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.Media;
 
 /**
  *
@@ -23,25 +25,30 @@ public class PiperTTSService {
         this.vocesPath = vocesPath;
         this.piperPath = piperPath;
     }
-    
-    public PiperTTSService getInstancia(){
+
+    public static PiperTTSService getInstancia(){
         
-        if(INSTANCIA == null) INSTANCIA = new PiperTTSService("cr/ac/una/pruebasgraficas/tts", detectarPiperPath());
+        if(INSTANCIA == null) {
+            INSTANCIA = new PiperTTSService("./external/Linux/piper-tts/Modelos", detectarPiperPath());
+        }
         return INSTANCIA;
         
     }
-    
-    private String detectarPiperPath(){
+ /**
+ *     Deteccion del modelo y en consecuencia devuelve la la ruta del programa de ejecucion 
+ */
+    private static String detectarPiperPath(){
             
         String os = System.getProperty("os.name").toLowerCase();
         
         if(os.contains("win"))
             return "./externals/Win/Pendiente";
         else
-            return "./external/Linux/pipper/tts";
-        
+            return "./external/Linux/piper-tts/piper";        
     } 
-    
+ /**
+ *          Verificacion para verificar si las rutas de los modelos de voces y pipertts sea valida
+ */
     private void validarArchivos() throws IllegalAccessException{
         
         File voces = new File(vocesPath);
@@ -56,28 +63,43 @@ public class PiperTTSService {
         
     }
     
-    public void sintentizar(String msg, String outputWav) throws Exception {
-        ProcessBuilder pb = new ProcessBuilder(
+    public void sintetizar(String msg) throws Exception {
+
+        validarArchivos();
+
+        File modelo = new File(vocesPath + "/es_ES-carlfm-x_low.onnx");
+        if (!modelo.exists()) {
+            throw new FileNotFoundException("Modelo no encontrado: " + modelo.getAbsolutePath());
+        }
+
+        File tempFile = File.createTempFile("tts_", ".wav");
+        tempFile.deleteOnExit();
+
+        ProcessBuilder processBuilder = new ProcessBuilder(
             piperPath,
-            "--model", vocesPath,
-            "--output_file", outputWav
+            "--model", modelo.getAbsolutePath(),
+            "--output_file", tempFile.getAbsolutePath()
         );
 
-        pb.directory(new File(piperPath).getParentFile());
-        pb.redirectErrorStream(true);
+        processBuilder.redirectErrorStream(true);
 
-        Process process = pb.start();
+        Process process = processBuilder.start();
 
         try (OutputStream stdin = process.getOutputStream()) {
-            stdin.write(msg.getBytes("UTF-8"));
+            stdin.write(msg.getBytes(StandardCharsets.UTF_8));
         }
 
         int exitCode = process.waitFor();
+
         if (exitCode != 0) {
             String err = new String(process.getInputStream().readAllBytes());
-            throw new RuntimeException("Piper error en "
-                + System.getProperty("os.name") + ": " + err);
+            throw new RuntimeException("Error ejecutando Piper: " + err);
         }
-    }
-    
+
+        System.out.println("Audio generado en: " + tempFile.getAbsolutePath());
+        
+        Media media = new Media(tempFile.toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+    }    
 }
