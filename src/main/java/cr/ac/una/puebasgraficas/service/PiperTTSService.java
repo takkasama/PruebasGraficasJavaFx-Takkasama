@@ -42,9 +42,9 @@ public class PiperTTSService {
         String os = System.getProperty("os.name").toLowerCase();
         
         if(os.contains("win"))
-            return "./externals/Win/Pendiente";
+            return "./externals/Windows/piper_tts/piper.exe";
         else
-            return "./external/Linux/piper-tts/piper";        
+            return "./external/Linux/piper_tts/piper";        
     } 
  /**
  *          Verificacion para verificar si las rutas de los modelos de voces y pipertts sea valida
