@@ -29,7 +29,7 @@ public class PiperTTSService {
     public static PiperTTSService getInstancia(){
         
         if(INSTANCIA == null) {
-            INSTANCIA = new PiperTTSService("./external/Linux/piper-tts/Modelos", detectarPiperPath());
+            INSTANCIA = new PiperTTSService("./external/Modelos_PipperTTS", detectarPiperPath());
         }
         return INSTANCIA;
         
@@ -67,7 +67,7 @@ public class PiperTTSService {
 
         validarArchivos();
 
-        File modelo = new File(vocesPath + "/es_ES-carlfm-x_low.onnx");
+        File modelo = new File(vocesPath + "/es_MX-claude-high.onnx");
         if (!modelo.exists()) {
             throw new FileNotFoundException("Modelo no encontrado: " + modelo.getAbsolutePath());
         }
