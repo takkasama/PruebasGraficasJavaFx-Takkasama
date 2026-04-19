@@ -29,7 +29,7 @@ public class AudioManager {
             sonidos.put("ficha", cargarClip("ficha"));
             sonidos.put("estacion", cargarClip("estacion"));
             sonidos.put("llamado", cargarClip("llamado"));
-            sonidos.put("llamado_repertir", cargarClip("llamado_repetir"));
+            sonidos.put("llamado_repertir", cargarClip("llamado_repetido"));
             
             sonidos.put("A", cargarClip("letra_a"));
             sonidos.put("B", cargarClip("letra_b"));

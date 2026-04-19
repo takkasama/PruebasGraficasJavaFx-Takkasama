@@ -51,9 +51,12 @@
                   </MFXLegacyTableView>
                </children>
             </VBox>
-            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="20.0" HBox.hgrow="ALWAYS">
                <children>
-                  <MFXButton fx:id="btnAbrir" onAction="#onActionBtnAbrir" text="Abrir" />
+                  <MFXTextField fx:id="txtNumero" floatingText="Numero" />
+                  <MFXTextField fx:id="txtLetra" floatingText="Letra" />
+                  <MFXTextField fx:id="txtEstacion" floatingText="Estacion" />
+                  <MFXButton fx:id="btnHacerLlamado" onAction="#onActionBtnHacerLlamado" text="Hacer Llamado" />
                </children>
             </VBox>
          </children>

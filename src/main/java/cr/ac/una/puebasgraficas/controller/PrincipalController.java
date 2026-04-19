@@ -59,11 +59,17 @@ public class PrincipalController extends Controller implements Initializable {
     @FXML
     private MFXButton btnReproduceAudio;
     @FXML
-    private MFXButton btnAbrir;
-    @FXML
     private Label lblTopInfo;
     @FXML
     private AnchorPane testPane;
+    @FXML
+    private MFXTextField txtNumero;
+    @FXML
+    private MFXTextField txtLetra;
+    @FXML
+    private MFXTextField txtEstacion;
+    @FXML
+    private MFXButton btnHacerLlamado;
 
 
     /**
@@ -185,11 +191,6 @@ public class PrincipalController extends Controller implements Initializable {
     }
 
 
-    @FXML
-    private void onActionBtnAbrir(ActionEvent event) {
-        
-        
-    }
     
 
     //  CARGAR INFORMACION EN EL TOP 
@@ -232,6 +233,10 @@ public class PrincipalController extends Controller implements Initializable {
         
         view.setCycleCount(1);
         view.play();
+    }
+
+    @FXML
+    private void onActionBtnHacerLlamado(ActionEvent event) {
     }
 
 }
