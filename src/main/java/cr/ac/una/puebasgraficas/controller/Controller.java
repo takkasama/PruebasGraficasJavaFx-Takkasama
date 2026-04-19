@@ -5,6 +5,7 @@
  */
 package cr.ac.una.puebasgraficas.controller;
 
+import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -40,6 +41,8 @@ public abstract class Controller {
         this.nombreVista = nombreVista;
     }
 
+    public void setParent(Controller parent){}
+    
     public void sendTabEvent(KeyEvent event) {
         event.consume();
         KeyEvent keyEvent = new KeyEvent(KeyEvent.KEY_PRESSED, null, null, KeyCode.TAB, false, false, false, false);

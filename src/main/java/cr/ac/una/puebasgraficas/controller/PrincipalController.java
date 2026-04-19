@@ -4,6 +4,7 @@ import cr.ac.una.puebasgraficas.model.ListUsers;
 import cr.ac.una.puebasgraficas.model.UserDTO;
 import cr.ac.una.puebasgraficas.model.User;
 import cr.ac.una.puebasgraficas.service.PiperTTSService;
+import cr.ac.una.puebasgraficas.util.AppContext;
 import cr.ac.una.puebasgraficas.util.FlowController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -11,22 +12,29 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class PrincipalController extends Controller implements Initializable {
 
@@ -39,12 +47,6 @@ public class PrincipalController extends Controller implements Initializable {
     @FXML
     private MFXTextField txtEmail;
     @FXML
-    private AnchorPane pContainer;
-    @FXML
-    private MFXDatePicker dpkDateBirth;
-    @FXML
-    private FlowPane paneUsers;
-    @FXML
     private MFXLegacyTableView<User> tableUsers;
     @FXML
     private TableColumn<User, String> colName;
@@ -56,6 +58,12 @@ public class PrincipalController extends Controller implements Initializable {
     private MFXTextField txtDescripcion;
     @FXML
     private MFXButton btnReproduceAudio;
+    @FXML
+    private MFXButton btnAbrir;
+    @FXML
+    private Label lblTopInfo;
+    @FXML
+    private AnchorPane testPane;
 
 
     /**
@@ -64,7 +72,7 @@ public class PrincipalController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        colDateBirth.setCellValueFactory(new PropertyValueFactory<>("dateBirth"));
+        colDateBirth.setCellValueFactory(new PropertyValueFactory<>("registerDate"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         
@@ -73,6 +81,8 @@ public class PrincipalController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
+        setNombreVista(" Pruebas Graficas ");
+        loadTime();
     }
     
     
@@ -91,7 +101,7 @@ public class PrincipalController extends Controller implements Initializable {
         boolean isEmptyTxtFieldEmpty = txtEmail.getText().isEmpty() || 
                 txtName.getText().isEmpty();          
         
-        Stage paretStage = (Stage) pContainer.getScene().getWindow();
+        Stage paretStage = (Stage) testPane.getScene().getWindow();
 
         if(isEmptyTxtFieldEmpty){
             openAdvertisementWindow(paretStage, "Txt Empty");
@@ -105,11 +115,8 @@ public class PrincipalController extends Controller implements Initializable {
             openAdvertisementWindow(paretStage, "Invalid Email");
             return;
         }
-         if(!isValidDateBirthDatePicker(dpkDateBirth.getValue())){
-             openAdvertisementWindow(paretStage, "Invalid Date Birth");
-         }
         else 
-            saveUserAndLoadUser(txtName.getText(), txtEmail.getText(), dpkDateBirth.getValue().toString());
+            saveUserAndLoadUser(txtName.getText(), txtEmail.getText());
     }
     
     //Abre ventana emergente si no se cumple las condiciones de algo 
@@ -128,15 +135,16 @@ public class PrincipalController extends Controller implements Initializable {
     }
     
     //Agrega el usuario 
-    public void saveUserAndLoadUser(String name, String email, String dateBirth){
+    public void saveUserAndLoadUser(String name, String email){
         
         User user = new User();
+        
         user.setName(name);
         user.setEmail(email);
-        user.setDateBirth(dateBirth);
+        user.setRegisterDate(LocalDate.now().toString());
         
         if(!listUsersUI.add(user)){
-            Stage parentStage = (Stage) pContainer.getScene().getWindow();
+            Stage parentStage = (Stage) testPane.getScene().getWindow();
             openAdvertisementWindow(parentStage, " - THE USER EXIST - ");
         }
             
@@ -175,8 +183,56 @@ public class PrincipalController extends Controller implements Initializable {
     private void onActrionBtnReproduceAudio(ActionEvent event) throws Exception {
         PiperTTSService.getInstancia().sintetizar(txtDescripcion.getText());
     }
+
+
+    @FXML
+    private void onActionBtnAbrir(ActionEvent event) {
+        
+        
+    }
     
 
+    //  CARGAR INFORMACION EN EL TOP 
+    
+    
+    private void loadTime(){
+        
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
+        
+      Timeline time = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+          ZonedDateTime current = ZonedDateTime.now();
+          lblTopInfo.setText(current.format(formatter));
+        })
+      );  
+      
+      time.setCycleCount(Timeline.INDEFINITE);
+      time.play();
+    } 
+
+    @FXML
+    private void onMouseClickedUser(MouseEvent event) {
+      if(event.getClickCount() == 2){
+            User current = tableUsers.getSelectionModel().getSelectedItem();
+            if(current != null){
+                AppContext.getInstance().set("CurrentUser", current);
+                showAutoCloseUserView();
+            }
+        } 
+    }
+    
+    private void showAutoCloseUserView(){
+        
+        FlowController.getInstance().goViewInWindowModal("UserView", getStage(), true);
+        
+        Timeline view = new Timeline(new KeyFrame(Duration.seconds(5), e ->{
+                
+                FlowController.getInstance().getController("UserView").getStage().close();
+            })
+        );
+        
+        view.setCycleCount(1);
+        view.play();
+    }
 
 }
 

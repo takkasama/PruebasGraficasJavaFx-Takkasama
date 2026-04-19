@@ -14,11 +14,13 @@ public class User {
     String name;
     String email;
     String dateBirth;
+    String registerDate;
 
     public User(String name, String email, String dateBirth) {
         this.name = name;
         this.email = email;
         this.dateBirth = dateBirth;
+        this.registerDate = LocalDate.now().toString();
     }
     
     public User(){}
@@ -46,6 +48,16 @@ public class User {
     public void setDateBirth(String dateBirth) {
         this.dateBirth = dateBirth;
     }
+
+    public String getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(String registerDate) {
+        this.registerDate = registerDate;
+    }
+    
+    
     
     public static boolean isValidDate(LocalDate dateToVerify){
         return Period.between(dateToVerify, LocalDate.now()).getYears() > 18;

@@ -1,7 +1,6 @@
 package cr.ac.una.puebasgraficas.service;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
 
@@ -29,7 +28,7 @@ public class PiperTTSService {
     public static PiperTTSService getInstancia(){
         
         if(INSTANCIA == null) {
-            INSTANCIA = new PiperTTSService("./external/Modelos_PipperTTS", detectarPiperPath());
+            INSTANCIA = new PiperTTSService("./external/Modelos", detectarPiperPath());
         }
         return INSTANCIA;
         

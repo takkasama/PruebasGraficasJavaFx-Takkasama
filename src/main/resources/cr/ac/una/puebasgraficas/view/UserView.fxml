@@ -10,7 +10,7 @@
          <children>
             <Label fx:id="lblName" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Name" VBox.vgrow="ALWAYS" />
             <Label fx:id="lblEmail" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Email" VBox.vgrow="ALWAYS" />
-            <Label fx:id="lblDateBirth" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="DateBitrth" VBox.vgrow="ALWAYS" />
+            <Label fx:id="lblRegisterDate" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="RegisterDate" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>

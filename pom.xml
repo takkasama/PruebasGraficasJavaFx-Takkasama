@@ -20,74 +20,56 @@
     
     
     <dependencies>
+        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>25.0.2</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>25.0.2</version>
         </dependency>
-        
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>25.0.2</version>
+        </dependency>
+
+        <!-- UI -->
+        <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>materialfx</artifactId>
+            <version>11.16.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+        <!-- JSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
 
+        <!-- 🔥 TTS -->
         <dependency>
-            <groupId>io.github.palexdev</groupId>
-            <artifactId>materialfx</artifactId>
-            <version>11.16.1</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>io.github.mkpaz</groupId>
-            <artifactId>atlantafx-base</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-<!--        
-           MaryTTS Core 
-          <dependency>
-            <groupId>de.dfki.mary</groupId>
-            <artifactId>marytts-runtime</artifactId>
-            <version>5.2.1</version>
-          </dependency>
-
-           Voz en español (DFKI Inca) 
-          <dependency>
-            <groupId>de.dfki.mary</groupId>
-            <artifactId>voice-dfki-inca-hsmm</artifactId>
-            <version>5.2.1</version>
-          </dependency>-->
-        
-<!--        <dependency>
-            <groupId>de.dfki.mary</groupId>
-            <artifactId>marytts-runtime</artifactId>
-            <version>5.2</version>
+            <groupId>io.github.givimad</groupId>
+            <artifactId>piper-jni</artifactId>
+            <version>1.4.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>de.dfki.mary</groupId>
-            <artifactId>voice-cmu-slt-hsmm</artifactId>
-            <version>5.2</version>
-        </dependency>
-        <dependency>
-            <groupId>de.dfki.mary</groupId>
-            <artifactId>marytts-builder</artifactId>
-            <version>5.2.1</version>
-            <type>jar</type>
-        </dependency>-->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
-            <version>25-ea+21</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
+
+       
+    
     <build>
         <plugins>
             <plugin>

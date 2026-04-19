@@ -1,17 +1,8 @@
 [
   {
-    "name": "Isaac",
+    "name": "Isaac Fallas ",
     "email": "takkasama@gmail.com",
-    "dateBirth": "1902-04-11"
-  },
-  {
-    "name": "Isaac",
-    "email": "jose.fallas.picado@est.una.ac.cr",
-    "dateBirth": "1902-04-11"
-  },
-  {
-    "name": "Isaac",
-    "email": "ajose.fallas.picado@est.una.ac.cr",
-    "dateBirth": "1902-04-11"
+    "dateBirth": null,
+    "registerDate": "2026-04-14"
   }
 ]
