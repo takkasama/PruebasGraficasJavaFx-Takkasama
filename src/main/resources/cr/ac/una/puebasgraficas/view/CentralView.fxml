@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.puebasgraficas.controller.CentralController">
+<AnchorPane id="AnchorPane" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.puebasgraficas.controller.CentralController">
    <children>
-      <Button fx:id="buttom" layoutX="184.0" layoutY="110.0" mnemonicParsing="false" text="Button" />
+      <VBox alignment="CENTER" layoutX="223.0" prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <MFXButton fx:id="btnDrapAndDrop" onAction="#onActionBtnDrapAndDrop" prefHeight="80.0" prefWidth="200.0" text="DrapAndDrop" />
+            <MFXButton fx:id="btnTestDemoTowerDenfender" onAction="#onActionBtnTestDemoTowerDenfender" prefHeight="80.0" prefWidth="200.0" text="TestDemoTowerDenfender" />
+            <MFXButton fx:id="btnTestTTS" onAction="#onActionBtnTestTTS" prefHeight="80.0" prefWidth="200.0" text="TestTTS" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

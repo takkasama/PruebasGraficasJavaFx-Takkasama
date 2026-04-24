@@ -58,14 +58,13 @@ public class AudioManager {
         }
         catch(Exception e){
             System.out.println("❌ ERROR cargando: ");
-            e.printStackTrace();
-}
+        }
     }
     
     private Clip cargarClip(String nombreArchivo) throws IOException, UnsupportedAudioFileException, LineUnavailableException{
         
         AudioInputStream audio  = AudioSystem.getAudioInputStream(getClass()
-                .getResource("/cr/ac/una/astroline/resource/audio/"+ nombreArchivo +".wav"));
+                .getResource("/cr/ac/una/puebasgraficas/resource/audio"+ nombreArchivo +".wav"));
         
         Clip clip = AudioSystem.getClip();
         clip.open(audio);
@@ -135,8 +134,6 @@ public class AudioManager {
         
             
         new Thread(() -> reproducirSecuencia(secuencia)).start();
-        
-        System.out.println("[AudioManger] Se reproduce el audio");
     }
     
 }

@@ -30,7 +30,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class PrincipalController extends Controller implements Initializable {
+public class VoicesTestController extends Controller implements Initializable {
 
     private ListUsers listUsersUI = new ListUsers();
     
@@ -68,6 +68,8 @@ public class PrincipalController extends Controller implements Initializable {
     private MFXTextField txtDescriptionFree;
     @FXML
     private MFXButton btnReproduceFree;
+    @FXML
+    private MFXButton btnExit;
 
 
     /**
@@ -121,6 +123,11 @@ public class PrincipalController extends Controller implements Initializable {
          executeCalled();
     }    
     
+    @FXML
+    private void onActionBtnExit(ActionEvent event) {
+        FlowController.getInstance().goMain();
+    }
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *               
 *                                                               |Guardado|                                                                  *
@@ -181,7 +188,7 @@ public class PrincipalController extends Controller implements Initializable {
             try {
                 PiperTTSService.getInstance().speak(user.mensajeDeConfirmacion());
         } catch (Exception ex) {
-            System.getLogger(PrincipalController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            System.getLogger(VoicesTestController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
         
     }

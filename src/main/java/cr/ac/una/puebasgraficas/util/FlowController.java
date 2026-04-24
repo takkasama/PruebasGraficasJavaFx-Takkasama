@@ -84,7 +84,7 @@ public class FlowController {
     public void goMain() {
     try {
         FXMLLoader loader = new FXMLLoader(
-            App.class.getResource("/cr/ac/una/puebasgraficas/view/PrincipalView.fxml"), 
+            App.class.getResource("/cr/ac/una/puebasgraficas/view/CentralView.fxml"), 
             this.idioma
         );
         Parent root = loader.load();
@@ -106,11 +106,11 @@ public class FlowController {
         public void goMain(String acceso) {
              try {
                 if (acceso == null || acceso.isBlank()) {
-                    acceso = "Principal";
+                    acceso = "Central";
             }
 
             FXMLLoader loader = new FXMLLoader(
-                App.class.getResource("/cr/ac/una/astroline/view/" + acceso + "View.fxml"),
+                App.class.getResource("/cr/ac/una/puebasgraficas/view/" + acceso + "View.fxml"),
                 this.idioma
             );
 
