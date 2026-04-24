@@ -1,5 +1,6 @@
 package cr.ac.una.puebasgraficas;
 
+import cr.ac.una.puebasgraficas.util.AudioManager;
 import cr.ac.una.puebasgraficas.util.FlowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

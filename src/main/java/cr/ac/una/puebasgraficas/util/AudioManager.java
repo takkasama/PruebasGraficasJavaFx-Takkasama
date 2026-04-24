@@ -1,13 +1,18 @@
 package cr.ac.una.puebasgraficas.util;
 
+import cr.ac.una.puebasgraficas.model.Token;
 import java.io.IOException;
+import java.util.ArrayList;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 
@@ -26,15 +31,17 @@ public class AudioManager {
     
     private void cargarSonidos(){
         try{
-            sonidos.put("ficha", cargarClip("ficha"));
             sonidos.put("estacion", cargarClip("estacion"));
+            sonidos.put("ficha", cargarClip("ficha"));
             sonidos.put("llamado", cargarClip("llamado"));
-            sonidos.put("llamado_repertir", cargarClip("llamado_repetido"));
+            
+            sonidos.put("-", cargarClip("char_guion"));
             
             sonidos.put("A", cargarClip("letra_a"));
             sonidos.put("B", cargarClip("letra_b"));
             sonidos.put("C", cargarClip("letra_c"));
             sonidos.put("D", cargarClip("letra_d"));
+            sonidos.put("E", cargarClip("letra_e"));
             
             sonidos.put("0", cargarClip("num_0"));
             sonidos.put("1", cargarClip("num_1"));
@@ -49,12 +56,17 @@ public class AudioManager {
 
             
         }
-        catch(Exception e){}
+        catch(Exception e){
+            System.out.println("❌ ERROR cargando: ");
+            e.printStackTrace();
+}
     }
     
     private Clip cargarClip(String nombreArchivo) throws IOException, UnsupportedAudioFileException, LineUnavailableException{
+        
         AudioInputStream audio  = AudioSystem.getAudioInputStream(getClass()
-                .getResource("/cr/ac/una/pruebasgraficas/audio/"+ nombreArchivo +".wav"));
+                .getResource("/cr/ac/una/astroline/resource/audio/"+ nombreArchivo +".wav"));
+        
         Clip clip = AudioSystem.getClip();
         clip.open(audio);
         
@@ -64,7 +76,10 @@ public class AudioManager {
     public void reproducir(String key){
         Clip audio = sonidos.get(key);
         
-        if(audio == null) return;
+        if(audio == null){
+            System.out.println("[AudioManager]  Key invalida");
+            return;
+        }
         
         if(audio.isRunning())
             audio.stop();
@@ -72,6 +87,56 @@ public class AudioManager {
         audio.setFramePosition(0);
         audio.start();
         
+    }
+    
+    public void reproducirSecuencia(List<String> keys) {
+        for (String key : keys) {
+            Clip audio = sonidos.get(key);
+
+            if (audio == null) {
+                System.out.println("[AudioManager] Key invalida: " + key);
+                return;
+            }
+
+            if (audio.isRunning()) audio.stop();
+            audio.setFramePosition(0);
+            audio.start();
+            audio.drain();
+
+            long duracionMs = audio.getMicrosecondLength() / 1000;
+            
+            try {
+                Thread.sleep(duracionMs);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+    }
+    
+    
+    public void callToken(Token ficha) {
+
+        List<String> secuencia = new ArrayList<>();
+        secuencia.add("ficha");
+        
+        for (char digito : ficha.getCode().toCharArray()) 
+            secuencia.add(String.valueOf(digito));
+
+        secuencia.add("llamado");
+  
+        secuencia.add("estacion");
+        
+        String estacion = ficha.getStation();
+        String digitos = estacion.substring(estacion.lastIndexOf("-") + 1);
+         
+        for(char digito : digitos.toCharArray())
+                secuencia.add(String.valueOf(digito));
+        
+            
+        new Thread(() -> reproducirSecuencia(secuencia)).start();
+        
+        System.out.println("[AudioManger] Se reproduce el audio");
     }
     
 }

@@ -1,13 +1,13 @@
 package cr.ac.una.puebasgraficas.controller;
 
 import cr.ac.una.puebasgraficas.model.ListUsers;
-import cr.ac.una.puebasgraficas.model.UserDTO;
+import cr.ac.una.puebasgraficas.model.Token;
 import cr.ac.una.puebasgraficas.model.User;
-import cr.ac.una.puebasgraficas.service.PiperTTSService;
+import cr.ac.una.puebasgraficas.service.*;
 import cr.ac.una.puebasgraficas.util.AppContext;
+import cr.ac.una.puebasgraficas.util.AudioManager;
 import cr.ac.una.puebasgraficas.util.FlowController;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView;
 import java.net.URL;
@@ -17,22 +17,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -40,8 +34,6 @@ public class PrincipalController extends Controller implements Initializable {
 
     private ListUsers listUsersUI = new ListUsers();
     
-    @FXML
-    private MFXButton btnAgregar;
     @FXML
     private MFXTextField txtName;
     @FXML
@@ -55,21 +47,27 @@ public class PrincipalController extends Controller implements Initializable {
     @FXML
     private TableColumn<User, String> colDateBirth;
     @FXML
-    private MFXTextField txtDescripcion;
-    @FXML
-    private MFXButton btnReproduceAudio;
-    @FXML
     private Label lblTopInfo;
     @FXML
     private AnchorPane testPane;
     @FXML
-    private MFXTextField txtNumero;
+    private MFXTextField txtNumber;
     @FXML
-    private MFXTextField txtLetra;
+    private MFXTextField txtLetter;
     @FXML
-    private MFXTextField txtEstacion;
+    private MFXTextField txtStation;
     @FXML
-    private MFXButton btnHacerLlamado;
+    private MFXButton btnAddUser;
+    @FXML
+    private MFXButton btnReproduceManager;
+    @FXML
+    private MFXTextField txtDescriptionPiper;
+    @FXML
+    private MFXButton btnReproducePiper;
+    @FXML
+    private MFXTextField txtDescriptionFree;
+    @FXML
+    private MFXButton btnReproduceFree;
 
 
     /**
@@ -90,14 +88,40 @@ public class PrincipalController extends Controller implements Initializable {
         setNombreVista(" Pruebas Graficas ");
         loadTime();
     }
+    @FXML
+    private void onActionBtnAddUser(ActionEvent event) {
+                saveAndVerifyUser();
+    }
+
+    @FXML
+    private void onActionBtnReproducePiper(ActionEvent event) {
+        if(txtDescriptionPiper.getText().isBlank()) return;
+        PiperTTSService.getInstance().speak(txtDescriptionPiper.getText());
+        
+    }
     
+ @FXML
+    private void onKeyPressedDescripcionPiper(KeyEvent event) {
+        onActionBtnReproducePiper(null);
+    }
+
+    @FXML
+    private void onActionBtnReproduceFree(ActionEvent event) {
+        if(txtDescriptionFree.getText().isBlank()) return;
+        FreeTTS.getInstance().speak(txtDescriptionFree.getText());
+    }
     
     @FXML
-    private void onActionBtnAgregar(ActionEvent event) {
-      
-        saveAndVerifyUser();
-                
+    private void onKeyPressedDescripcionFree(KeyEvent event) {
+         onActionBtnReproduceFree(null);
     }
+    
+    @FXML
+    private void onActionBtnReproduceManager(ActionEvent event) {
+         executeCalled();
+    }    
+    
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *               
 *                                                               |Guardado|                                                                  *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -153,8 +177,12 @@ public class PrincipalController extends Controller implements Initializable {
             Stage parentStage = (Stage) testPane.getScene().getWindow();
             openAdvertisementWindow(parentStage, " - THE USER EXIST - ");
         }
-            
-        
+        else
+            try {
+                PiperTTSService.getInstance().speak(user.mensajeDeConfirmacion());
+        } catch (Exception ex) {
+            System.getLogger(PrincipalController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
         
     }
     
@@ -179,21 +207,6 @@ public class PrincipalController extends Controller implements Initializable {
         //en desarrollo
         
     }
-
-    @FXML
-    private void onKeyPressedDescripcion(KeyEvent event) throws Exception {
-        if(event.getCode() == KeyCode.ENTER) onActrionBtnReproduceAudio(null);
-    }
-
-    @FXML
-    private void onActrionBtnReproduceAudio(ActionEvent event) throws Exception {
-        PiperTTSService.getInstancia().sintetizar(txtDescripcion.getText());
-    }
-
-
-    
-
-    //  CARGAR INFORMACION EN EL TOP 
     
     
     private void loadTime(){
@@ -235,10 +248,38 @@ public class PrincipalController extends Controller implements Initializable {
         view.play();
     }
 
-    @FXML
-    private void onActionBtnHacerLlamado(ActionEvent event) {
+    private void executeCalled() {
+
+        String currentNum = txtNumber.getText(); // ✅ corregido
+        String currentLetter = txtLetter.getText();
+        String currentStation = txtStation.getText();
+
+        // Validar vacíos
+        if (currentNum == null || currentNum.trim().isEmpty() ||
+            currentLetter == null || currentLetter.trim().isEmpty() ||
+            currentStation == null || currentStation.trim().isEmpty()) {
+
+            System.out.println("Campos vacíos");
+            return;
+        }
+
+        try {
+            int numero = Integer.parseInt(currentNum);
+
+            Token token = new Token(
+                    numero,
+                    currentLetter.toUpperCase(),
+                    currentStation
+            );
+
+            AudioManager.getINSTANCIA().callToken(token);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Número inválido");
+        }
     }
 
+    
 }
 
     

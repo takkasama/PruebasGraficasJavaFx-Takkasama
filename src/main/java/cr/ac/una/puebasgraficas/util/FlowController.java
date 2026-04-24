@@ -102,6 +102,36 @@ public class FlowController {
             .log(Level.SEVERE, "Error inicializando la vista base.", ex);
     }
 }
+    
+        public void goMain(String acceso) {
+             try {
+                if (acceso == null || acceso.isBlank()) {
+                    acceso = "Principal";
+            }
+
+            FXMLLoader loader = new FXMLLoader(
+                App.class.getResource("/cr/ac/una/astroline/view/" + acceso + "View.fxml"),
+                this.idioma
+            );
+
+            Parent root = loader.load();
+
+            Controller controller = loader.getController();
+            controller.setStage(this.mainStage);
+            controller.initialize();
+            
+            this.mainStage.setTitle(acceso);
+            this.mainStage.setScene(new Scene(root));
+            applyIcon(this.mainStage);
+            MFXThemeManager.addOn(this.mainStage.getScene(), Themes.DEFAULT, Themes.LEGACY);
+            this.mainStage.centerOnScreen();
+            this.mainStage.show();
+
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(FlowController.class.getName())
+                .log(Level.SEVERE, "Error inicializando la vista base.", ex);
+        }
+    }
 
     public void goView(String viewName) {
         goView(viewName, "Center", null);

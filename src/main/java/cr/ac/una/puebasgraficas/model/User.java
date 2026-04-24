@@ -69,4 +69,9 @@ public class User {
         return getName() + " : " + getEmail() + "\t-\t" + getDateBirth();
     }
     
+    public String mensajeDeConfirmacion(){
+        
+        return "Nombre " + getName() + "Se Registro el dia " + getRegisterDate();
+        
+    }
 }

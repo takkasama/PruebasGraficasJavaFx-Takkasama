@@ -21,13 +21,7 @@
          <children>
             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="20.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="lblTopInfo" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="INFO DE VISTA " VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="txtDescripcion" floatingText="Descripcion" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressedDescripcion" VBox.vgrow="ALWAYS">
-                     <VBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </VBox.margin>
-                  </MFXTextField>
-                  <MFXButton fx:id="btnReproduceAudio" onAction="#onActrionBtnReproduceAudio" text="Reproducir" />
+                  <Label fx:id="lblTopInfo" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Register User" VBox.vgrow="ALWAYS" />
                   <MFXTextField fx:id="txtName" floatingText="Name " maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets left="10.0" right="10.0" />
@@ -38,7 +32,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </MFXTextField>
-                  <MFXButton fx:id="btnAgregar" onAction="#onActionBtnAgregar" text="Agregar " />
+                  <MFXButton fx:id="btnAddUser" onAction="#onActionBtnAddUser" text="Add User" />
                   <MFXLegacyTableView fx:id="tableUsers" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#onMouseClickedUser" prefWidth="340.0" VBox.vgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="colName" prefWidth="75.0" text="Name" />
@@ -53,10 +47,41 @@
             </VBox>
             <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="20.0" HBox.hgrow="ALWAYS">
                <children>
-                  <MFXTextField fx:id="txtNumero" floatingText="Numero" />
-                  <MFXTextField fx:id="txtLetra" floatingText="Letra" />
-                  <MFXTextField fx:id="txtEstacion" floatingText="Estacion" />
-                  <MFXButton fx:id="btnHacerLlamado" onAction="#onActionBtnHacerLlamado" text="Hacer Llamado" />
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="88.0" text="Audio Manager" VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <MFXTextField fx:id="txtNumber" floatingText="Number" />
+                              <MFXTextField fx:id="txtLetter" floatingText="Letter" />
+                              <MFXTextField fx:id="txtStation" floatingText="Station" />
+                           </children>
+                        </HBox>
+                        <MFXButton fx:id="btnReproduceManager" onAction="#onActionBtnReproduceManager" text="Reproduce" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="88.0" text="PiperTTS" />
+                        <MFXTextField fx:id="txtDescriptionPiper" floatingText="Description" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressedDescripcionPiper" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <MFXButton fx:id="btnReproducePiper" onAction="#onActionBtnReproducePiper" text="Reproduce" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="88.0" text="FreeTSS (Only English)" />
+                        <MFXTextField fx:id="txtDescriptionFree" floatingText="Description " maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressedDescripcionFree">
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <MFXButton fx:id="btnReproduceFree" onAction="#onActionBtnReproduceFree" text="Reproduce" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
